@@ -108,6 +108,10 @@ public class DeskPlug : SceneObjWithState<DeskPlugState>
             {
 
                 case DeskPlugState.Off:
+                    TextTaskContent testContent;
+                    string[] testStrings = { "测试文本", "插头被插上了", "嘤嘤嘤嘤嘤" };
+                    testContent.texts = testStrings;
+                    TextController.theTextControllerInstance.AddTask(testContent);
                     SetDicStateValue(DeskPlugState.On);
                     break;
 
