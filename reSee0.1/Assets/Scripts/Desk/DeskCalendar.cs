@@ -41,7 +41,7 @@ public class DeskCalendar : SceneObjWithState<DeskCalendarState>
     private void OnMouseUpAsButton()
     {
 
-        if (GameManager.gameManagerInstance.GetIsGlobalObjRespondMouse() && theSceneManager.GetIsSceneObjRespondMouse())
+        if (GameManager.gameManagerInstance.GetIsGlobalObjRespondMouse())
         {
             ObjTrigger(NormalTriggers.mouseClick);
             SetSelfViewByState();
@@ -64,11 +64,14 @@ public class DeskCalendar : SceneObjWithState<DeskCalendarState>
 
                 case DeskCalendarState.HaveKey:
                     PropContent propContent;
-                    propContent.propName = PropName.DeskCuKey;
+                    // propContent.propName = PropName.DeskCuKey;
+                    propContent.propName = PropName.TestProp;
                     propContent.startPosition = keyPosition;
                     propContent.thePropSprite = keySprite;
                     //获得钥匙
-                    UIPropList.uIPropListInstance.AddTask(propContent);
+
+                    GameManager.gameManagerInstance.AddProp(propContent);
+
                     SetDicStateValue(DeskCalendarState.WithOutKey);
                     break;
 

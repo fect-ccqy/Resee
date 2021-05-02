@@ -12,7 +12,7 @@ public struct PropContent
 
 public class UIPropList : MonoBehaviour,TaskMessenger,TaskProcessor<PropContent>
 {
-    public static UIPropList uIPropListInstance;
+    public static UIPropList uIPropListInstance;//提供给propUI实体，进行调用。SceneObj不应调用该属性
 
     private Dictionary<string, InteractiveObj> uiPropDic;
 
@@ -23,7 +23,7 @@ public class UIPropList : MonoBehaviour,TaskMessenger,TaskProcessor<PropContent>
     private bool isPropChosen = false;
 
     [SerializeField] private GameObject uiPropListContent;
-
+    [SerializeField] private PropAnimationController propAnimationController;
     //[SerializeField] private InteractiveObj[] testInitObjList; 
 
 
@@ -59,6 +59,7 @@ public class UIPropList : MonoBehaviour,TaskMessenger,TaskProcessor<PropContent>
     }
 
 
+    //接收来自GameManager的获得物体的调用
     public int AddTask(PropContent theTaskContent)
     {
         if (!isGettingProp)
@@ -71,7 +72,7 @@ public class UIPropList : MonoBehaviour,TaskMessenger,TaskProcessor<PropContent>
             animationTaskContent.startPosition = theTaskContent.startPosition;
             animationTaskContent.thePropSprite = theTaskContent.thePropSprite;
 
-            PropAnimationController.thePropAnimationControllerInstance.AddTaskWithCallBack(animationTaskContent, this, NormalTriggers.GetPropAnimationFinish);
+            propAnimationController.AddTaskWithCallBack(animationTaskContent, this, NormalTriggers.GetPropAnimationFinish);
             return 0;
         }
 
@@ -80,10 +81,10 @@ public class UIPropList : MonoBehaviour,TaskMessenger,TaskProcessor<PropContent>
             return -1;
         }
 
-
-
     }
 
+
+    //接收来自GameManager的调用
     public int AddTaskWithCallBack(PropContent theTaskContent, TaskMessenger tcallBackMessenger, string tcallBackEvent)
     {
         if (!isGettingProp)
@@ -104,35 +105,7 @@ public class UIPropList : MonoBehaviour,TaskMessenger,TaskProcessor<PropContent>
 
 
 
-
-
-
-    /*
-     
-    public void GetProp(string propName, AnimationTaskContent theContent)
-    {
-        gettingProp = propName;
-        PropAnimationController.thePropAnimationControllerInstance.AddTask(theContent);
-    }
-
-
-     public int GetProp(AnimationTaskContent theContent,string propName,bool tisCallBack,InteractiveObj tcallBackObj)
-    {
-        if (isGettingProp == true)
-        {
-            return -1;
-        }
-        isCallBack = tisCallBack;
-        callBackObj = tcallBackObj;
-        GetProp(propName, theContent);
-        return 0;
-    }
-
-     
-     */
-    
-
-
+    //在列表中添加道具实体
     private void AddPropUI(string propName)
     {
         GameObject tempInstantiate = Instantiate(PropDataManager.propDataManagerInstance.GetPropPrefab(propName), uiPropListContent.transform);
@@ -142,13 +115,14 @@ public class UIPropList : MonoBehaviour,TaskMessenger,TaskProcessor<PropContent>
     }
 
 
-
+    //供propUI实体调用
     public bool GetIsPropChosen()
     {
         return isPropChosen;
 
     }
 
+    //供propUI实体调用
     public string GetNowChosenProp()
     {
         return nowChosenPropName;
@@ -175,7 +149,7 @@ public class UIPropList : MonoBehaviour,TaskMessenger,TaskProcessor<PropContent>
      */
 
 
-
+    //propUI发生点击后，调用该方法
     public void MouseClickProp(string propName)
     {
         
@@ -233,33 +207,8 @@ public class UIPropList : MonoBehaviour,TaskMessenger,TaskProcessor<PropContent>
     {
         uIPropListInstance = this;
         uiPropDic = new Dictionary<string, InteractiveObj>();
-
-
-        /*
-         
-         for(int i = 0; i < testInitObjList.Length; i++)
-        {
-            uiPropDic.Add(testInitObjList[i].GetObjName(), testInitObjList[i]);
-        }
-         
-         */
         
-
-
     }
 
 
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

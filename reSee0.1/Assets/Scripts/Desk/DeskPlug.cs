@@ -61,7 +61,7 @@ public class DeskPlug : SceneObjWithState<DeskPlugState>
 
     private void OnMouseUpAsButton()
     {
-        if (GameManager.gameManagerInstance.GetIsGlobalObjRespondMouse() && theSceneManager.GetIsSceneObjRespondMouse())
+        if (GameManager.gameManagerInstance.GetIsGlobalObjRespondMouse())
         {
             ObjTrigger(NormalTriggers.mouseClick);
             SetSelfViewByState();
@@ -108,11 +108,11 @@ public class DeskPlug : SceneObjWithState<DeskPlugState>
             {
 
                 case DeskPlugState.Off:
-                    TextTaskContent testContent;
-                    string[] testStrings = { "测试文本", "插头被插上了", "嘤嘤嘤嘤嘤" };
-                    testContent.texts = testStrings;
-                    TextController.theTextControllerInstance.AddTask(testContent);
                     SetDicStateValue(DeskPlugState.On);
+                    TextTaskContent textTaskContent;
+                    string[] testStrings = { "测试文本", "插头被插上了", "嘤嘤嘤嘤嘤嘤嘤嘤" };
+                    textTaskContent.texts = testStrings;
+                    GameManager.gameManagerInstance.ShowText(textTaskContent);
                     break;
 
 

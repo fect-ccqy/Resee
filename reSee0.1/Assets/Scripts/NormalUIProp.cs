@@ -63,7 +63,7 @@ public class NormalUIProp : InteractiveObj
     //由道具栏实体调用该方法。若选中道具发生改变，每次的操作顺序为先取消选中，然后再调用新道具的选中方法
     protected virtual void BeChosen()
     {
-        
+
         backGroundImg.color = chosenColor;
     }
 
@@ -74,10 +74,14 @@ public class NormalUIProp : InteractiveObj
 
     public void OnMouseClick()
     {
+
         //Debug.LogFormat("click happen");
+        if (GameManager.gameManagerInstance.GetIsGlobalObjRespondMouse())
+        {
 
-        ObjTrigger(NormalTriggers.mouseClick);
+            ObjTrigger(NormalTriggers.mouseClick);
 
+        }
     }
 
 

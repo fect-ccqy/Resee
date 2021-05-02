@@ -28,7 +28,7 @@ public class TextController : MonoBehaviour,TaskProcessor<TextTaskContent>
     private bool isShowTextFinish = false;
     private bool isFadeInFinish = false;
 
-    public static TextController theTextControllerInstance;
+    //public static TextController theTextControllerInstance;
 
     public void SetTextSize(int textSize)
     {
@@ -173,7 +173,6 @@ public class TextController : MonoBehaviour,TaskProcessor<TextTaskContent>
 
     private void Awake()
     {
-        theTextControllerInstance = this;
         SetSelf();
     }
 

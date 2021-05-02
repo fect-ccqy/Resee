@@ -30,12 +30,13 @@ public class PropAnimationController :MonoBehaviour, TaskProcessor<AnimationTask
         MidWaitClick,   //当前开始播放以结束，等待鼠标点击进行结束播放
         PlayingEnd      //当前正在进行结束的播放（结束的播放完成以后，转为NotPlaying状态）
     }
-    public static PropAnimationController thePropAnimationControllerInstance;
+    //public static PropAnimationController thePropAnimationControllerInstance;
 
     private PropAnimationControllerState propAnimationControllerState = PropAnimationControllerState.NotPlaying;
 
     private float theK = 0.4f;
     [SerializeField] private GameObject theProp;
+    [SerializeField] private GameObject BackGroundCanvas;
     private SpriteRenderer thePropSpriteRenderer;
     private Transform thePropTransform;
 
@@ -63,7 +64,6 @@ public class PropAnimationController :MonoBehaviour, TaskProcessor<AnimationTask
     {
         thePropSpriteRenderer = theProp.GetComponent<SpriteRenderer>();
         thePropTransform = theProp.transform;
-        thePropAnimationControllerInstance = this;
 
         SetSelf();
     }
@@ -73,10 +73,12 @@ public class PropAnimationController :MonoBehaviour, TaskProcessor<AnimationTask
         if (propAnimationControllerState == PropAnimationControllerState.NotPlaying)
         {
             theProp.SetActive(false);
+            BackGroundCanvas.SetActive(false);
         }
         else
         {
             theProp.SetActive(true);
+            BackGroundCanvas.SetActive(true);
         }
 
     }
@@ -186,12 +188,13 @@ public class PropAnimationController :MonoBehaviour, TaskProcessor<AnimationTask
         thePropTransform.position = midPosition;
         thePropTransform.localScale = midScale;
         thePropSpriteRenderer.color = midColora;
-
+        
 
         while (true)
         {
             if (Input.GetMouseButtonDown(0))
             {
+                //yield return 0;
                 break;
             }
             yield return 0;
@@ -215,12 +218,15 @@ public class PropAnimationController :MonoBehaviour, TaskProcessor<AnimationTask
             thePropTransform.localScale = midScale + deltaScale * interp_normalize_k;
             thePropSpriteRenderer.color = midColora + deltaColora * interp_normalize_k;
 
-
-            if (Input.GetMouseButtonDown(0))
+            /*
+             if (Input.GetMouseButtonDown(0))
             {
                 break;
             }
 
+             
+             */
+            
             yield return 0;
         }
 
@@ -256,13 +262,4 @@ public class PropAnimationController :MonoBehaviour, TaskProcessor<AnimationTask
     }
 
 
-    // Update is called once per frame
-    void Update()
-    {
-
-
-
-
-
-    }
 }

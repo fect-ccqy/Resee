@@ -32,13 +32,13 @@ public class NormalUIPropWithMouse : NormalUIProp
     protected override void BeChosen()
     {
         base.BeChosen();
-        MouseManager.mouseManagerInstance.SetMouseController(this,isMouseManagerSetNormalColor,isMouseManagerSetOverColor,isMouseManagerSetDownColor);
+        MouseManager.mouseManagerInstance.SetMouseController_DefaultCallBackMode(this,isMouseManagerSetNormalColor,isMouseManagerSetOverColor,isMouseManagerSetDownColor);
     }
 
     protected override void CancelChosen()
     {
         base.CancelChosen();
-        MouseManager.mouseManagerInstance.FreeControlOfMouse();
+        MouseManager.mouseManagerInstance.FreeControlOfMouse_DefaultCallBackMode();
     }
 
 

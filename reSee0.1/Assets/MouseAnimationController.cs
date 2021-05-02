@@ -2,15 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PropTypeName
+public class MouseAnimationController : MonoBehaviour
 {
-    DeskCuKey
-}
-
-public class PropName : MonoBehaviour
-{
-    public static readonly string DeskCuKey = "DeskCuKey";
-    public static readonly string TestProp = "TestProp";
     // Start is called before the first frame update
     void Start()
     {
@@ -22,4 +15,10 @@ public class PropName : MonoBehaviour
     {
         
     }
+
+    public void AnimationFinish()
+    {
+        MouseManager.mouseManagerInstance.FinishDownAnimation_AnimationCallBackMode();
+    }
+
 }
