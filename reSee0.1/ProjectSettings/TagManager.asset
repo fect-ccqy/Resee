@@ -41,3 +41,54 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: New Layer
+    uniqueID: 234435351
+    locked: 0
+  - name: New Layer
+    uniqueID: 3511643117
+    locked: 0
+  - name: BackGround
+    uniqueID: 4187324457
+    locked: 0
+  - name: New Layer
+    uniqueID: 1328797415
+    locked: 0
+  - name: BackGroundObj
+    uniqueID: 3582026729
+    locked: 0
+  - name: New Layer
+    uniqueID: 1147262823
+    locked: 0
+  - name: Object
+    uniqueID: 870961069
+    locked: 0
+  - name: New Layer
+    uniqueID: 4247989539
+    locked: 0
+  - name: New Layer
+    uniqueID: 2568892427
+    locked: 0
+  - name: New Layer
+    uniqueID: 3021441895
+    locked: 0
+  - name: New Layer
+    uniqueID: 2105477769
+    locked: 0
+  - name: UI
+    uniqueID: 1812509649
+    locked: 0
+  - name: UIObj
+    uniqueID: 1931943063
+    locked: 0
+  - name: New Layer
+    uniqueID: 2093246837
+    locked: 0
+  - name: Mouse
+    uniqueID: 3262629751
+    locked: 0
+  - name: New Layer
+    uniqueID: 2386344495
+    locked: 0
+  - name: New Layer
+    uniqueID: 1602324555
+    locked: 0
