@@ -32,17 +32,19 @@ public class PropAnimationController :MonoBehaviour, TaskProcessor<AnimationTask
     }
     //public static PropAnimationController thePropAnimationControllerInstance;
 
+    //用来描述当前动画控制器状态的变量（在当前逻辑下，其实可以用bool值，isPlaying来代替）
     private PropAnimationControllerState propAnimationControllerState = PropAnimationControllerState.NotPlaying;
 
-    private float theK = 0.4f;
-    [SerializeField] private GameObject theProp;
-    [SerializeField] private GameObject BackGroundCanvas;
-    private SpriteRenderer thePropSpriteRenderer;
-    private Transform thePropTransform;
+
+    //一些必需的属性
+    [SerializeField] private GameObject theProp;//动画实体
+    [SerializeField] private GameObject BackGroundCanvas;//获得道具时的背景画布
+    private SpriteRenderer thePropSpriteRenderer;//动画实体的SpriteRender
+    private Transform thePropTransform;//动画实体的transfrom
 
 
 
-    //尺寸，坐标，透明度
+    //一些通用设置尺寸，坐标，透明度
     private Vector2 startPosition;
     [SerializeField] private Vector2 startScale;
     [SerializeField] private Color startColora;
@@ -55,10 +57,12 @@ public class PropAnimationController :MonoBehaviour, TaskProcessor<AnimationTask
     [SerializeField] private Vector2 endScale;
     [SerializeField] private Color endColora;
 
-
+    //处理回调相关逻辑
     private bool isCallBack = false;
     private TaskMessenger callBackMessenger;
     private string callBackEvent;
+
+
 
     private void Awake()
     {
@@ -68,12 +72,14 @@ public class PropAnimationController :MonoBehaviour, TaskProcessor<AnimationTask
         SetSelf();
     }
 
+
+    //在awake初始化，动画协程开始时，以及协程结束后调用的FinishWork()中被调用
     private void SetSelf()
     {
         if (propAnimationControllerState == PropAnimationControllerState.NotPlaying)
         {
-            theProp.SetActive(false);
-            BackGroundCanvas.SetActive(false);
+            theProp.SetActive(false);//动画实体
+            BackGroundCanvas.SetActive(false);//背景画布
         }
         else
         {
@@ -107,6 +113,8 @@ public class PropAnimationController :MonoBehaviour, TaskProcessor<AnimationTask
 
     }
 
+
+    //由GameManager调用（sceneObj逻辑上获得物体后，由GameManager套娃调用该方法）
     public int AddTaskWithCallBack(AnimationTaskContent theTaskContent, TaskMessenger tcallBackMessenger, string tcallBackEvent)
     {
         if (propAnimationControllerState == PropAnimationControllerState.NotPlaying)
@@ -126,7 +134,7 @@ public class PropAnimationController :MonoBehaviour, TaskProcessor<AnimationTask
     }
 
 
-
+    //实现动画插值的协程
     IEnumerator PlayGetPropAnimation()
     {
 
@@ -245,6 +253,7 @@ public class PropAnimationController :MonoBehaviour, TaskProcessor<AnimationTask
     }
 
 
+    //动画结束后调用该方法，该方法回调uiPropList的Callback
     private void FinishWork()
     {
         //if (isCallBack)

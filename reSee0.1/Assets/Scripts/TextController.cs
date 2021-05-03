@@ -9,6 +9,8 @@ public struct TextTaskContent
     
 }
 
+
+//对脚本加载的awake顺序无要求
 public class TextController : MonoBehaviour,TaskProcessor<TextTaskContent>
 {
     [SerializeField] private Text theText;
@@ -50,6 +52,7 @@ public class TextController : MonoBehaviour,TaskProcessor<TextTaskContent>
     }
 
 
+    //打字机效果
     IEnumerator ShowOneSentenceText(string theSentence)
     {
         
@@ -69,6 +72,8 @@ public class TextController : MonoBehaviour,TaskProcessor<TextTaskContent>
         isShowTextFinish = true;
 
     }
+    
+    //淡入效果
     IEnumerator ShowOneSentenceFadeIn()
     {
         Color tColor = theText.color;
@@ -89,6 +94,8 @@ public class TextController : MonoBehaviour,TaskProcessor<TextTaskContent>
         isFadeInFinish = true;
     }
 
+
+    //逐行显示各个句子
     IEnumerator ShowText()
     {
         for(int i = 0; i < nowWorkContent.Length; i++)
@@ -116,6 +123,8 @@ public class TextController : MonoBehaviour,TaskProcessor<TextTaskContent>
 
     }
 
+
+    //显示完成后会调用该方法
     private void FinishWork()
     {
         isWorking = false;
@@ -127,6 +136,7 @@ public class TextController : MonoBehaviour,TaskProcessor<TextTaskContent>
         }
     }
 
+    //在场景加载初始化，添加任务，以及任务结束后被调用
     private void SetSelf()
     {
         if (isWorking)
@@ -139,6 +149,8 @@ public class TextController : MonoBehaviour,TaskProcessor<TextTaskContent>
         }
     }
 
+
+    //添加任务
     public int AddTask(TextTaskContent theContent)
     {
         if (!isWorking)
@@ -154,6 +166,8 @@ public class TextController : MonoBehaviour,TaskProcessor<TextTaskContent>
             return -1;
         }
     }
+
+    //添加任务，设置回调
     public int AddTaskWithCallBack(TextTaskContent theContent, TaskMessenger tcallBackMessenger, string tcallBackEvent)
     {
         if (!isWorking)
@@ -171,20 +185,11 @@ public class TextController : MonoBehaviour,TaskProcessor<TextTaskContent>
         }
     }
 
+
+
     private void Awake()
     {
         SetSelf();
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

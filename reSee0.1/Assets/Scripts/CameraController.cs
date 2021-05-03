@@ -7,15 +7,15 @@ using UnityEngine;
 public struct CameraMoveContent
 {
     public Vector2 targetPosition;
-    public float targetSize;
-    public float moveSpeed;
+    public float targetSize;//targetSize=-1时认为是移动回默认位置
+    public float moveSpeed;//moveSpeed=-1时认为是移动回默认位置(两者有一个即可)
 }
 
 
 public class CameraController : MonoBehaviour, TaskProcessor<CameraMoveContent>
 {
 
-    public static CameraController theCameraControllerInstance;
+    //public static CameraController theCameraControllerInstance;
 
     private bool isCallBack = false;
     private TaskMessenger callBackMessenger;
@@ -30,7 +30,7 @@ public class CameraController : MonoBehaviour, TaskProcessor<CameraMoveContent>
     [SerializeField] private float defaultSpeed;
 
 
-
+    //实现给定目标尺寸，速度，目标位置，移动至该位置/尺寸的协程
     IEnumerator MoveCamera(Vector2 targetPosition,float targetSize,float moveSpeed)
     {
         Vector2 startPosition = transform.position;
@@ -62,6 +62,9 @@ public class CameraController : MonoBehaviour, TaskProcessor<CameraMoveContent>
 
 
     }
+    
+    
+    //协程结束后调用该方法
     private void FinishWork()
     {
         isWorking = false;
@@ -72,29 +75,22 @@ public class CameraController : MonoBehaviour, TaskProcessor<CameraMoveContent>
         }
     }
 
-    public int AddTaskToDefault()
-    {
-        if (!isWorking)
-        {
-            isWorking = true;
 
-            StartCoroutine(MoveCamera(defaultPosition, defaultSize, defaultSpeed));
-
-            return 0;
-        }
-        else
-        {
-            return -1;
-        }
-    }
-
+    //由GameManager调用该方法，进行移动任务的派发
     public int AddTask(CameraMoveContent theTaskContent)
     {
         if (!isWorking)
         {
             isWorking = true;
+            if (theTaskContent.moveSpeed == -1 || theTaskContent.targetSize == -1)
+            {
+                StartCoroutine(MoveCamera(defaultPosition, defaultSize, defaultSpeed));
+            }
+            else {
 
-            StartCoroutine(MoveCamera(theTaskContent.targetPosition, theTaskContent.targetSize, theTaskContent.moveSpeed));
+                StartCoroutine(MoveCamera(theTaskContent.targetPosition, theTaskContent.targetSize, theTaskContent.moveSpeed));
+
+            }
 
             return 0;
         }
@@ -104,6 +100,7 @@ public class CameraController : MonoBehaviour, TaskProcessor<CameraMoveContent>
         }
     }
 
+    //由GameManager调用该方法，进行移动任务的派发
     public int AddTaskWithCallBack(CameraMoveContent theTaskContent,TaskMessenger tcallBackMessenger,string tcallBackEvent)
     {
 
@@ -122,9 +119,42 @@ public class CameraController : MonoBehaviour, TaskProcessor<CameraMoveContent>
         }
     }
 
-    private void Awake()
+
+    //移动回默认位置与尺寸。由GameManager调用该方法，进行移动任务的派发。
+    public int MoveBackToDefaultPositionSize()
     {
-        theCameraControllerInstance = this;
+        if (!isWorking)
+        {
+            isWorking = true;
+            StartCoroutine(MoveCamera(defaultPosition, defaultSize, defaultSpeed));
+           
+            return 0;
+        }
+        else
+        {
+            return -1;
+        }
     }
+
+
+    //移动回默认位置与尺寸。由GameManager调用该方法，进行移动任务的派发
+    public int MoveBackToDefaultPositionSizeWithCallBack(TaskMessenger tcallBackMessenger, string tcallBackEvent)
+    {
+
+        if (!isWorking)
+        {
+            isCallBack = true;
+            callBackMessenger = tcallBackMessenger;
+            callBackEvent = tcallBackEvent;
+            MoveBackToDefaultPositionSize();
+
+            return 0;
+        }
+        else
+        {
+            return -1;
+        }
+    }
+
 
 }
